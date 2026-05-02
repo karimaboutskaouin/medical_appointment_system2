@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-from .models import User, DoctorProfile, PatientProfile
+from .models import User, DoctorProfile, PatientProfile, VitalSigns, MedicalDocument
 
 
 class DoctorProfileSerializer(serializers.ModelSerializer):
@@ -15,15 +15,41 @@ class PatientProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class VitalSignsSerializer(serializers.ModelSerializer):
+    bmi = serializers.ReadOnlyField()
+
+    class Meta:
+        model = VitalSigns
+        fields = ['id', 'date', 'blood_pressure_systolic', 'blood_pressure_diastolic',
+                  'heart_rate', 'weight', 'height', 'bmi']
+
+
+class MedicalDocumentSerializer(serializers.ModelSerializer):
+    doc_type_display = serializers.CharField(source='get_doc_type_display', read_only=True)
+    doctor_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MedicalDocument
+        fields = ['id', 'doc_type', 'doc_type_display', 'title', 'description',
+                  'file', 'created_at', 'doctor_name']
+
+    def get_doctor_name(self, obj):
+        if obj.doctor:
+            return f"Dr. {obj.doctor.first_name} {obj.doctor.last_name}"
+        return None
+
+
 class UserSerializer(serializers.ModelSerializer):
     doctor_profile = DoctorProfileSerializer(read_only=True)
     patient_profile = PatientProfileSerializer(read_only=True)
+    vital_signs = VitalSignsSerializer(many=True, read_only=True)
+    medical_documents = MedicalDocumentSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name',
                   'role', 'phone', 'date_of_birth', 'profile_picture',
-                  'doctor_profile', 'patient_profile']
+                  'doctor_profile', 'patient_profile', 'vital_signs', 'medical_documents']
         read_only_fields = ['id']
 
 

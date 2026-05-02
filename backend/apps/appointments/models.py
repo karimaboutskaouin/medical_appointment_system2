@@ -17,6 +17,7 @@ class Appointment(models.Model):
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='pending')
     reason = models.TextField(blank=True)
     notes = models.TextField(blank=True)
+    diagnosis = models.TextField(blank=True, verbose_name='Diagnostic')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

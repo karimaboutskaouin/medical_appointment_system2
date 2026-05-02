@@ -70,3 +70,28 @@ class DoctorDetailView(generics.RetrieveAPIView):
     queryset = User.objects.filter(role='doctor')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class PatientDetailView(APIView):
+    """Endpoint for doctors to retrieve a patient's medical file by patient ID (used after QR scan)."""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, pk):
+        if request.user.role != 'doctor':
+            return Response({'error': 'Accès réservé aux médecins.'}, status=status.HTTP_403_FORBIDDEN)
+        try:
+            patient = User.objects.get(pk=pk, role='patient')
+        except User.DoesNotExist:
+            return Response({'error': 'Patient introuvable.'}, status=status.HTTP_404_NOT_FOUND)
+
+        from apps.appointments.models import Appointment
+        from apps.appointments.serializers import AppointmentSerializer
+
+        patient_data = UserSerializer(patient).data
+        appointments = Appointment.objects.filter(patient=patient, doctor=request.user).order_by('-date', '-time')
+        appointments_data = AppointmentSerializer(appointments, many=True).data
+
+        return Response({
+            'patient': patient_data,
+            'appointments': appointments_data,
+        })
