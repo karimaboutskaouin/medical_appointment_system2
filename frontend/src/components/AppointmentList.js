@@ -14,7 +14,7 @@ const STATUS_COLORS = {
   completed: 'status-completed',
 };
 
-export default function AppointmentList({ appointments, onCancel, role }) {
+export default function AppointmentList({ appointments, onCancel, onConfirm, role }) {
   if (!appointments?.length) {
     return <div className="empty-state">Aucun rendez-vous trouvé.</div>;
   }
@@ -41,6 +41,14 @@ export default function AppointmentList({ appointments, onCancel, role }) {
             <span className={`status-badge ${STATUS_COLORS[apt.status]}`}>
               {STATUS_LABELS[apt.status]}
             </span>
+            {apt.status === 'pending' && role === 'doctor' && onConfirm && (
+              <button className="btn-confirm-small"
+                onClick={() => onConfirm(apt.id)}>✓ Confirmer</button>
+            )}
+            {apt.status === 'pending' && role === 'patient' && onCancel && (
+              <button className="btn-cancel-small"
+                onClick={() => onCancel(apt.id)}>Annuler</button>
+            )}
             {apt.status === 'confirmed' && role === 'patient' && onCancel && (
               <button className="btn-cancel-small"
                 onClick={() => onCancel(apt.id)}>Annuler</button>
