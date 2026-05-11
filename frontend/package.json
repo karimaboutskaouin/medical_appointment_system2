@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.6.1",
     "axios": "^1.6.2",
     "html5-qrcode": "^2.3.8",
     "qrcode.react": "^4.2.0",

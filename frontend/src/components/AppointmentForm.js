@@ -41,8 +41,8 @@ export default function AppointmentForm({ onSuccess, onClose }) {
         {error && <div className="alert alert-error">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Médecin</label>
-            <select value={form.doctor}
+            <label htmlFor="doctor-select">Médecin</label>
+            <select id="doctor-select" value={form.doctor}
               onChange={e => setForm({ ...form, doctor: e.target.value })} required>
               <option value="">Choisir un médecin...</option>
               {doctors.map(d => (
@@ -55,14 +55,14 @@ export default function AppointmentForm({ onSuccess, onClose }) {
           </div>
           <div className="form-row">
             <div className="form-group">
-              <label>Date</label>
-              <input type="date" value={form.date}
+              <label htmlFor="date-input">Date</label>
+              <input id="date-input" type="date" value={form.date}
                 min={new Date().toISOString().split('T')[0]}
                 onChange={e => setForm({ ...form, date: e.target.value })} required />
             </div>
             <div className="form-group">
-              <label>Heure</label>
-              <select value={form.time}
+              <label htmlFor="time-select">Heure</label>
+              <select id="time-select" value={form.time}
                 onChange={e => setForm({ ...form, time: e.target.value })} required>
                 <option value="">Choisir...</option>
                 {timeSlots.map(t => <option key={t} value={t + ':00'}>{t}</option>)}
@@ -70,8 +70,8 @@ export default function AppointmentForm({ onSuccess, onClose }) {
             </div>
           </div>
           <div className="form-group">
-            <label>Motif de consultation</label>
-            <textarea value={form.reason}
+            <label htmlFor="reason-textarea">Motif de consultation</label>
+            <textarea id="reason-textarea" value={form.reason}
               onChange={e => setForm({ ...form, reason: e.target.value })}
               placeholder="Décrivez brièvement votre motif de visite..."
               rows={3} />
