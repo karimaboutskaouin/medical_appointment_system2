@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+backend/tests/__pycache__/
+frontend/test_output.txt
+node_modules/
+*.log
+.DS_Store
