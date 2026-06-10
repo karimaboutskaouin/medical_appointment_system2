@@ -63,10 +63,8 @@ Communication via API REST.
 ## 🛠️ Technologies utilisées
 
 ### 🔙 Backend
-- Java
-- Spring Boot
-- Spring Security (JWT)
-- JPA / Hibernate
+-Python
+-django rest framework
 
 ### 🎨 Frontend
 - Interface conçue avec Figma
@@ -76,7 +74,7 @@ Communication via API REST.
 - Docker
 - Docker Compose
 - GitHub Actions (CI/CD)
-- JUnit (tests unitaires)
+- Pytest (tests unitaires)
 - SonarQube (qualité du code)
 
 ---
